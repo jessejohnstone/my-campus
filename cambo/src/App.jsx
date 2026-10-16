@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { supabase } from "./lib/supabase";
+import { isSupabaseConfigured, supabase } from "./lib/supabase";
 import { getReports, createReport } from "./lib/reports";
 
 import Navbar from "./components/Navbar";
@@ -25,7 +25,7 @@ const emptyForm = {
 export default function App() {
   // Authentication
   const [student, setStudent] = useState(null);
-  const [authLoading, setAuthLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(isSupabaseConfigured);
   const [authError, setAuthError] = useState("");
 
   // Dashboard navigation
@@ -52,6 +52,8 @@ export default function App() {
 
   // Listen for login, logout, and restored sessions.
   useEffect(() => {
+    if (!supabase) return undefined;
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -263,6 +265,7 @@ export default function App() {
   if (!student) {
     return (
       <Login
+        isSupabaseConfigured={isSupabaseConfigured}
         onLoginStart={(type) => {
           loginDestination.current = type;
         }}

@@ -1,5 +1,17 @@
 {
-  "dependencies": {
-    "@supabase/supabase-js": "^2.117.3"
+  "name": "unifix-deployment",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "workspaces": [
+    "cambo"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=cambo",
+    "build": "npm run build --workspace=cambo",
+    "lint": "npm run lint --workspace=cambo",
+    "preview": "npm run preview --workspace=cambo"
   }
 }

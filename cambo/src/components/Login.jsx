@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
 
-export default function Login({ onLoginStart, onLoginFailed }) {
+export default function Login({
+  isSupabaseConfigured,
+  onLoginStart,
+  onLoginFailed,
+}) {
   const [loginType, setLoginType] = useState("student");
   const [isSignup, setIsSignup] = useState(false);
 
@@ -21,6 +25,13 @@ export default function Login({ onLoginStart, onLoginFailed }) {
     setPassword("");
     setError("");
     setMessage("");
+
+    if (!isSupabaseConfigured || !supabase) {
+      setError(
+        "Sign-in is unavailable. Add the Supabase URL and publishable key to your deployment environment variables."
+      );
+      return;
+    }
   }
 
   function toggleSignup() {
@@ -139,6 +150,14 @@ export default function Login({ onLoginStart, onLoginFailed }) {
               ? "Join UNIFIX and help improve your campus."
               : "Welcome back! Sign in to report campus issues."}
         </p>
+
+        {!isSupabaseConfigured && (
+          <p className="form-message" role="status">
+            Supabase is not configured for this deployment. Add
+            VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in the hosting
+            provider settings, then redeploy.
+          </p>
+        )}
 
         {isSignup && (
           <>
