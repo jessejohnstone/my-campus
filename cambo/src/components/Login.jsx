@@ -25,13 +25,6 @@ export default function Login({
     setPassword("");
     setError("");
     setMessage("");
-
-    if (!isSupabaseConfigured || !supabase) {
-      setError(
-        "Sign-in is unavailable. Add the Supabase URL and publishable key to your deployment environment variables."
-      );
-      return;
-    }
   }
 
   function toggleSignup() {
@@ -39,6 +32,13 @@ export default function Login({
     setPassword("");
     setError("");
     setMessage("");
+
+    if (!isSupabaseConfigured || !supabase) {
+      setError(
+        "Sign-in is unavailable. Add the Supabase URL and publishable key to your deployment environment variables."
+      );
+      return;
+    }
   }
 
   async function handleSubmit(event) {
